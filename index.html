@@ -8,7 +8,37 @@
 </head>
 <body>
     
-    
+    <!-- 
+    Save character names from tv shows.
+    Use the name of this app plus the show name as 
+    the localStorage key.
+    The character names will be saved as an array inside
+    a localStorage value with the appropriate key.
+    Make sure to avoid duplicate characters for each show.
+    Display a list of shows from localStorage in the header. 
+    Get the show names from the keys.
+    Click on a show to see the characters from the show.
+    Display the list of characters in the footer.
+    -->
+    <header>
+        <!-- list of shows here -->
+    </header>
+    <main>
+        <p>
+            <label for="show">TV Show</label>
+            <input type="text" id="show" />
+        </p>
+        <p>
+            <label for="char">Character</label>
+            <input type="text" id="char" />
+        </p>
+        <p>
+            <button id="btnSave">SAVE</button>
+        </p>
+    </main>
+    <footer>
+        <!-- list of characters here -->
+    </footer>
 
     <script src="script.js"></script>
 </body>
