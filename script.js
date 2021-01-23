@@ -6,6 +6,8 @@ const APP = {
         // start the APP
         document.getElementById('btnSave').addEventListener('click', APP.saveCharacter) ;
         document.querySelector('header').addEventListener('click', APP.loadCharacter);
+
+        APP.loadShows();
     },
     saveCharacter(e) {
         e.preventDefault();
@@ -28,7 +30,50 @@ const APP = {
             characters = Array.from(new Set(characters));
             // updating local storage with new array with added character
             localStorage.setItem(key, JSON.stringify(characters));
+
+            APP.loadShows();
         }
+    },
+
+    loadShows() {
+        // go to local storage and retrieve all the keys that start with APP.keybase
+        let numb = localStorage.length;
+        
+        if (numb) {
+            // as long as the number in loc storage in not zero, reset the keys arr
+            APP.keys = [];
+
+            for (let i = 0; i < numb; i++) {
+                let key = localStorage.key(i);
+
+                if (key.startsWith(APP.keybase)) {
+                    APP.keys.push(key);
+                }
+            }
+        }
+
+        APP.buildNav();
+    },
+
+    buildNav() {
+        let nav = document.querySelector('header');
+        nav.innerHTML = '';
+
+        let foot = document.querySelector('footer');
+        foot.innerHTML = '';
+
+        let docFragment = document.createDocumentFragment();
+
+        APP.keys.forEach(key => {
+            // create a new anchor in the header for each TV Show
+            let a = document.createElement('a');
+            a.className = 'show';
+            a.textContent = key.replace(APP.keybase, '');
+
+            docFragment.append(a);
+        });
+
+        nav.append(docFragment);
     }
 };
 
