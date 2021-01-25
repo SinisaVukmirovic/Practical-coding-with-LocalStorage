@@ -74,6 +74,30 @@ const APP = {
         });
 
         nav.append(docFragment);
+    },
+
+    loadCharacter(e) {
+        if (e.target.tagName === 'A') {
+            // put the show character into the input
+            let TVshow = e.target.textContent.toLowerCase();
+            document.getElementById('show').value = TVshow;
+
+            // remove old and add new active class
+            let oldActive = document.querySelector('header a.active');
+            if (oldActive) {
+                oldActive.classList.remove('active');
+            }
+            e.target.classList.add('active');
+
+            // get the chars of the selected show and build footer
+            let key = APP.keybase + TVshow;
+            let storage = localStorage.getItem(key);
+
+            if (storage) {
+                let characters = JSON.parse(storage);
+                APP.buildCharacters(characters);
+            }
+        }
     }
 };
 
