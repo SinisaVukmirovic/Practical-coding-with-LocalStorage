@@ -31,6 +31,9 @@ const APP = {
             // updating local storage with new array with added character
             localStorage.setItem(key, JSON.stringify(characters));
 
+            showInput = document.getElementById('show').value = '';
+            characterInput = document.getElementById('char').value = '';
+
             APP.loadShows();
         }
     },
@@ -98,6 +101,23 @@ const APP = {
                 APP.buildCharacters(characters);
             }
         }
+    },
+
+    buildCharacters(characters) {
+        let foot = document.querySelector('footer');
+        foot.innerHTML = '';
+
+        let docFragment = document.createDocumentFragment();
+
+        characters.forEach(char => {
+            let span = document.createElement('span');
+            span.className = 'char';
+            span.textContent = char;
+
+            docFragment.append(span);
+        });
+
+        foot.append(docFragment);
     }
 };
 
