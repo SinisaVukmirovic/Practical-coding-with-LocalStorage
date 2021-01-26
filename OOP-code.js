@@ -5,7 +5,7 @@ const APP = {
     init() {
         // start the APP
         document.getElementById('btnSave').addEventListener('click', APP.saveCharacter) ;
-        document.querySelector('header').addEventListener('click', APP.loadCharacter);
+        document.querySelector('header').addEventListener('click', APP.loadCharacters);
 
         APP.loadShows();
     },
@@ -79,7 +79,7 @@ const APP = {
         nav.append(docFragment);
     },
 
-    loadCharacter(e) {
+    loadCharacters(e) {
         if (e.target.tagName === 'A') {
             // put the show character into the input
             let TVshow = e.target.textContent.toLowerCase();
