@@ -1,11 +1,11 @@
 const main = document.querySelector('main');
 const nav = document.querySelector('header');
-const foot = document.querySelector('main');
+const foot = document.querySelector('footer');
 const keybase = 'TV-Shows-App-';
 let keys = [];
 
 const init = () => {
-    const btnSave = document.querySelector('#btnSave');
+    const btnSave = main.querySelector('#btnSave');
 
     btnSave.addEventListener('click', saveCharacter);
     nav.addEventListener('click', loadCharacters);
@@ -48,6 +48,76 @@ const buildNav = () => {
     });
 
     nav.append(docFragment);
+};
+
+const saveCharacter = (e) => {
+    e.preventDefault();
+
+    let showInput = main.querySelector('#show').value.trim();
+    let characterInput = main.querySelector('#char').value.trim();
+
+    // checking if both, show and char are provided
+    if (showInput && characterInput) {
+        // first looking in local storage to see if there already is a key
+        let key = keybase + showInput.toLowerCase();
+        let storage = localStorage.getItem(key);
+        let characters = [];
+
+        if (storage) {
+            characters = JSON.parse(storage);
+        }
+        characters.push(characterInput);
+        // removing duplicated by converting to Set then back to an array            
+        characters = Array.from(new Set(characters));
+        // updating local storage with new array with added character
+        localStorage.setItem(key, JSON.stringify(characters));
+
+        showInput = main.querySelector('#show').value = '';
+        characterInput = main.querySelector('#char').value = '';
+
+        loadShows();
+    }
+};
+
+const loadCharacters = (e) => {
+    if (e.target.tagName === 'A') {
+        // put the show character into the input
+        let TVshow = e.target.textContent.toLowerCase();
+        main.querySelector('#show').value = TVshow;
+
+        // remove old and add new active class
+        let oldActive = nav.querySelector('a.active');
+        if (oldActive) {
+            oldActive.classList.remove('active');
+        }
+        e.target.classList.add('active');
+
+        // get the chars of the selected show and build footer
+        let key = keybase + TVshow;
+        let storage = localStorage.getItem(key);
+
+        if (storage) {
+            let characters = JSON.parse(storage);
+
+            buildCharacters(characters);
+        }
+    }
+};
+
+const buildCharacters = (characters) => {
+    foot.innerHTML = '';
+
+    let docFragment = document.createDocumentFragment();
+
+    characters.forEach(char => {
+        let span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = char;
+
+        docFragment.append(span);
+    });
+
+    foot.append(docFragment);
 };
 
 document.addEventListener('DOMContentLoaded', init);
