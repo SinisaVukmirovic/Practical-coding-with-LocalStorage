@@ -9,6 +9,7 @@ const APP = {
 
         APP.loadShows();
     },
+    
     saveCharacter(e) {
         e.preventDefault();
 
